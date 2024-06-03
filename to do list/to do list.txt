@@ -1,0 +1,110 @@
+from datetime import datetime
+
+class Task:
+    def __init__(self, description, due_date=None, priority=0, completed=False):
+        self.description = description
+        self.due_date = due_date
+        self.priority = priority
+        self.completed = completed
+    
+    def __str__(self):
+        status = "Completed" if self.completed else "Pending"
+        return f"{self.description} | Due: {self.due_date} | Priority: {self.priority} | Status: {status}"
+
+class ToDoList:
+    def __init__(self):
+        self.tasks = []
+    
+    def add_task(self, description, due_date=None, priority=0):
+        task = Task(description, due_date, priority)
+        self.tasks.append(task)
+    
+    def remove_task(self, task_index):
+        if 0 <= task_index < len(self.tasks):
+            del self.tasks[task_index]
+        else:
+            print("Invalid task index.")
+    
+    def show_tasks(self):
+        if not self.tasks:
+            print("No tasks in the list.")
+        else:
+            for i, task in enumerate(self.tasks):
+                print(f"{i+1}. {task}")
+    
+    def set_due_date(self, task_index, due_date):
+        if 0 <= task_index < len(self.tasks):
+            self.tasks[task_index].due_date = due_date
+        else:
+            print("Invalid task index.")
+    
+    def set_priority(self, task_index, priority):
+        if 0 <= task_index < len(self.tasks):
+            self.tasks[task_index].priority = priority
+        else:
+            print("Invalid task index.")
+    
+    def mark_completed(self, task_index):
+        if 0 <= task_index < len(self.tasks):
+            self.tasks[task_index].completed = True
+        else:
+            print("Invalid task index.")
+    
+    def show_task_details(self, task_index):
+        if 0 <= task_index < len(self.tasks):
+            print(self.tasks[task_index])
+        else:
+            print("Invalid task index.")
+
+def main():
+    todo_list = ToDoList()
+    
+    while True:
+        print("\nTODO LIST MENU:")
+        print("1. Add Task")
+        print("2. Remove Task")
+        print("3. Set Due Date")
+        print("4. Set Priority")
+        print("5. Mark Task as Completed")
+        print("6. Show Tasks")
+        print("7. Exit")
+        
+        choice = input("Enter your choice: ")
+        
+        if choice == '1':
+            description = input("Enter task description: ")
+            due_date = input("Enter due date (optional, format: YYYY-MM-DD): ")
+            priority = int(input("Enter priority (0 for low, 1 for medium, 2 for high): "))
+            todo_list.add_task(description, due_date, priority)
+        
+        elif choice == '2':
+            task_index = int(input("Enter task index to remove: ")) - 1
+            todo_list.remove_task(task_index)
+        
+        elif choice == '3':
+            task_index = int(input("Enter task index to set due date: ")) - 1
+            due_date = input("Enter due date (format: YYYY-MM-DD): ")
+            todo_list.set_due_date(task_index, due_date)
+        
+        elif choice == '4':
+            task_index = int(input("Enter task index to set priority: ")) - 1
+            priority = int(input("Enter priority (0 for low, 1 for medium, 2 for high): "))
+            todo_list.set_priority(task_index, priority)
+        
+        elif choice == '5':
+            task_index = int(input("Enter task index to mark as completed: ")) - 1
+            todo_list.mark_completed(task_index)
+        
+        elif choice == '6':
+            print("\nTASKS:")
+            todo_list.show_tasks()
+        
+        elif choice == '7':
+            print("Exiting...")
+            break
+        
+        else:
+            print("Invalid choice. Please try again.")
+
+if __name__ == "__main__":
+    main()
